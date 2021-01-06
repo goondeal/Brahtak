@@ -1,6 +1,6 @@
 # Brahtak
 
-An E-Commerce mobile application built with flutter.
+A mobile application built with flutter for a retail-sales online store.
 
 ## Screenshots
 
