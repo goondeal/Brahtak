@@ -9,7 +9,7 @@ class LangInit extends StatefulWidget {
 }
 
 class _LangInitState extends State<LangInit> {
-    bool _showButton = false;
+  bool _showButton = false;
 
   final langs = {
     'English': 'en',
@@ -32,25 +32,25 @@ class _LangInitState extends State<LangInit> {
       appBar: AppBar(
         backgroundColor: primary,
         centerTitle: true,
-        title: Text('Welcome أهلا بك'),
+        title: const Text('Welcome أهلا بك'),
       ),
       body: Container(
         child: Center(
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text('من فضلك، قم باختيار لغة '),
-              SizedBox(height: 16),
-              Text('(Choose a language please)'),
-              SizedBox(height: 24),
+              const Text('من فضلك، قم باختيار لغة '),
+              const SizedBox(height: 16),
+              const Text('(Choose a language please)'),
+              const SizedBox(height: 24),
               PopupMenuButton<String>(
                 child: ListTile(
-                  title: Text(
+                  title: const Text(
                     'اللغة (Language)',
                     style: TextStyle(fontSize: 20),
                   ),
                   subtitle: Text(currentLang ?? ' '),
-                  trailing: Icon(Icons.expand_more),
+                  trailing: const Icon(Icons.expand_more),
                 ),
                 itemBuilder: (context) {
                   final List<PopupMenuItem<String>> menuitems = [];
@@ -71,21 +71,26 @@ class _LangInitState extends State<LangInit> {
                     });
                   });
                   allTranslations.setNewLanguage(selectedLanguage);
-                                                    _showButton = true;
-
-                  print('done');
+                  _showButton = true;
                 },
               ),
-               SizedBox(height: 100),
+              const SizedBox(height: 100),
               RaisedButton(
                 //padding: const EdgeInsets.symmetric(vertical: 8),
-                
-                color: primary,
-                child: Text(allTranslations.translate('ok'), style: TextStyle(color: Colors.white, fontSize: 20)),
-                onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterOrSignIn()));
-              })
 
+                color: primary,
+                child: Text(
+                  allTranslations.translate('ok'),
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => RegisterOrSignIn(),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:Bra7tk/models/Address.dart';
 import 'package:Bra7tk/services/api_identifier.dart';
 
-
 class ApiService {
   // Singleton Object.
   static final ApiService _apiService = ApiService._();
@@ -97,7 +96,7 @@ class ApiService {
   /// GET request: get all products.
   /// A client for "getResponse" method.
   Future<Map<String, dynamic>> getAllProducts() async {
-        const String path = ALL_PRODUCTS;
+    const String path = ALL_PRODUCTS;
 
     final result = await getResponse(
       path: path,

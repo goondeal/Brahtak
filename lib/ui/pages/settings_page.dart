@@ -3,27 +3,28 @@ import 'package:Bra7tk/ui/res/colors.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key key}) : super(key: key);
-
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   final langs = {
     'English': 'en',
     'Arabic': 'ar',
   };
+
   String currentLang;
+
   @override
   void initState() {
+    // Init super.
     super.initState();
-    langs.forEach((key, value) { 
-      if (value == allTranslations.locale?.languageCode){
+    // Get the current app language.
+    langs.forEach((String key, String value) {
+      if (value == allTranslations.locale?.languageCode) {
         currentLang = key;
       }
-     }) ;
+    });
   }
 
   @override
@@ -40,9 +41,12 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             PopupMenuButton<String>(
               child: ListTile(
-                title: Text(allTranslations.translate('lang'), style: TextStyle(fontSize: 20),),
-                subtitle: Text(currentLang??' '),
-                trailing: Icon(Icons.expand_more),
+                title: Text(
+                  allTranslations.translate('lang'),
+                  style: const TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(currentLang ?? ' '),
+                trailing: const Icon(Icons.expand_more),
               ),
               itemBuilder: (context) {
                 final List<PopupMenuItem<String>> menuitems = [];
@@ -54,19 +58,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
                 return menuitems;
               },
-              onSelected: (selectedLanguage){
+              onSelected: (String selectedLanguage) {
                 setState(() {
-                  langs.forEach((key, value) {if (selectedLanguage == value){
-                    currentLang = key;
-                  }});
+                  langs.forEach((key, value) {
+                    if (selectedLanguage == value) {
+                      currentLang = key;
+                    }
+                  });
                 });
                 allTranslations.setNewLanguage(selectedLanguage);
-
-                print('done');
-
               },
             ),
-           
           ],
         ),
       ),

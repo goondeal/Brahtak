@@ -31,8 +31,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init the app state model.
     model = Provider.of<AppStateModel>(context, listen: false);
+    // Init the user repository.
     userRepo = Provider.of<UserRepository>(context, listen: false);
   }
 
@@ -54,7 +57,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData localTheme = Theme.of(context);
+    // Get the screen size.
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -71,18 +74,23 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           SizedBox(
                             width: _leftColumnWidth,
                             child: IconButton(
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                }),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
                           ),
                           Text(
                             allTranslations.translate('cart'),
-                            style: localTheme.textTheme.subtitle1
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(width: 16.0),
-                          Text('${model.totalCartQuantity} ${allTranslations.translate('sold')}'),
+                          Text(
+                            '${model.totalCartQuantity} ${allTranslations.translate('sold')}',
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16.0),
@@ -101,11 +109,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 child: _addCoupon
                                     ? Text(
                                         allTranslations.translate('back'),
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       )
                                     : Text(
-                                        allTranslations.translate('enter_coupon'),
-                                        style: TextStyle(color: Colors.white),
+                                        allTranslations
+                                            .translate('enter_coupon'),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                 onPressed: () {
                                   setState(() {
@@ -114,7 +127,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 }),
                             title: _addCoupon
                                 ? TextField(
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: kTextColor,
                                       fontSize: 22,
                                     ),
@@ -122,7 +135,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     textAlignVertical: TextAlignVertical(y: 0),
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
-                                      hintText: allTranslations.translate('enter_coupon'),
+                                      hintText: allTranslations
+                                          .translate('enter_coupon'),
                                       border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
@@ -158,7 +172,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       }
                                     },
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                           ),
                         ),
                       const SizedBox(height: 100.0),
@@ -170,15 +184,15 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     right: 0.0,
                     child: Column(
                       children: <Widget>[
-                        _prettyButton(model, allTranslations.translate('clear_cart'), (_) {
+                        _prettyButton(
+                            model, allTranslations.translate('clear_cart'),
+                            (_) {
                           model.clearCart();
                           Future.delayed(Duration(milliseconds: 400), () {
                             Navigator.of(context).pop();
                           });
                         }),
-                        SizedBox(
-                          height: 8,
-                        ),
+                        const SizedBox(height: 8),
                         if (model.productsInCart.isNotEmpty)
                           Container(
                             width: double.infinity,
@@ -188,13 +202,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    if (Provider.of<UserRepository>(context,
-                                                listen: false)
-                                            .user ==
+                                    if (Provider.of<UserRepository>(
+                                          context,
+                                          listen: false,
+                                        ).user ==
                                         null) {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -215,14 +229,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   },
                                   child: Container(
                                     height: double.infinity,
-                                    //width: screenSize.width,
                                     color: Colors.transparent,
                                     child: Text(
                                       userRepo.choosenAddress?.addressName ??
-                                          allTranslations.translate('select_address'),
+                                          allTranslations
+                                              .translate('select_address'),
                                       overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 22.0),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22.0,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -230,7 +246,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   onTap: () {
                                     if (userRepo.choosenAddress == null) {
                                       Fluttertoast.showToast(
-                                        msg: allTranslations.translate('plz_select_address'),
+                                        msg: allTranslations
+                                            .translate('plz_select_address'),
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
@@ -266,7 +283,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                                 },
                                               )
                                               .toList();
-                                      //final order = Details();
                                       ApiService()
                                           .addToCart(details)
                                           .then((value) {
@@ -280,7 +296,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                           );
                                           ApiService().checkout(
                                             userID: userRepo.user.id.toString(),
-                                            address: userRepo.choosenAddress.toString(),
+                                            address: userRepo.choosenAddress
+                                                .toString(),
                                           );
                                           model.clearCart();
                                         } else {
@@ -296,23 +313,21 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   },
                                   child: Container(
                                     height: double.infinity,
-                                    //width: screenSize.width,
                                     color: Colors.transparent,
                                     child: Center(
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            allTranslations.translate('order_now'),
-                                            style: TextStyle(
+                                            allTranslations
+                                                .translate('order_now'),
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
                                             ),
                                           ),
-                                          Icon(
+                                          const Icon(
                                             Icons.arrow_forward,
                                             color: Colors.white,
                                           )
@@ -339,15 +354,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Widget _prettyButton(AppStateModel model, String text, Function action) {
     return RaisedButton(
       shape: const BeveledRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(7.0),
+        ),
       ),
       color: primary,
       splashColor: Colors.white,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       onPressed: () => action(model),
@@ -362,13 +379,11 @@ class ShoppingCartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle smallAmountStyle =
-        Theme.of(context).textTheme.bodyText2; 
+    final TextStyle smallAmountStyle = Theme.of(context).textTheme.bodyText2;
     final TextStyle largeAmountStyle =
         Theme.of(context).textTheme.headline4.copyWith(color: primary);
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Expanded(
@@ -380,7 +395,7 @@ class ShoppingCartSummary extends StatelessWidget {
                 const SizedBox(height: 4.0),
                 Row(
                   children: <Widget>[
-                     Expanded(
+                    Expanded(
                       child: Text(allTranslations.translate('products_price')),
                     ),
                     Text(
@@ -392,19 +407,16 @@ class ShoppingCartSummary extends StatelessWidget {
                 if (model.couponDiscount != 0.0)
                   Row(
                     children: <Widget>[
-                       Expanded(
+                      Expanded(
                         child: Text(allTranslations.translate('coupon_value')),
                       ),
-                      Text(
-                        model.couponDiscount.toString(),
-                        //style: smallAmountStyle,
-                      ),
+                      Text(model.couponDiscount.toString()),
                     ],
                   ),
                 const SizedBox(height: 4.0),
                 Row(
                   children: <Widget>[
-                     Expanded(
+                    Expanded(
                       child: Text(allTranslations.translate('delivery_cost')),
                     ),
                     Text(
@@ -415,9 +427,8 @@ class ShoppingCartSummary extends StatelessWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                     Expanded(
+                    Expanded(
                       child: Text(allTranslations.translate('total')),
                     ),
                     Text(
@@ -426,17 +437,6 @@ class ShoppingCartSummary extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: <Widget>[
-                //     const Expanded(
-                //       child: Text('Tax:'),
-                //     ),
-                //     Text(
-                //       formatter.format(12.0),
-                //       style: smallAmountStyle,
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -488,9 +488,8 @@ class ShoppingCartRow extends StatelessWidget {
                         width: 75.0,
                         height: 75.0,
                         progressIndicatorBuilder: (context, text, _) =>
-                            CircularProgressIndicator(),
+                            const CircularProgressIndicator(),
                       ),
-
                       const SizedBox(width: 16.0),
                       Expanded(
                         child: Column(
@@ -499,7 +498,9 @@ class ShoppingCartRow extends StatelessWidget {
                             Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Text('${allTranslations.translate('quantity')}: $quantity'),
+                                  child: Text(
+                                    '${allTranslations.translate('quantity')}: $quantity',
+                                  ),
                                 ),
                                 Text(' ${product.price.toStringAsFixed(2)}x'),
                               ],
@@ -515,10 +516,7 @@ class ShoppingCartRow extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16.0),
-                  Divider(
-                    color: primary,
-                    height: 10.0,
-                  ),
+                  const Divider(color: primary, height: 10.0),
                 ],
               ),
             ),
@@ -527,20 +525,13 @@ class ShoppingCartRow extends StatelessWidget {
             width: _leftColumnWidth,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Icon(
-                    Icons.remove_circle_outline,
-                    color: primary,
-                  ),
+                  icon: const Icon(Icons.remove_circle_outline, color: primary),
                   onPressed: remove,
                 ),
                 IconButton(
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    color: primary,
-                  ),
+                  icon: const Icon(Icons.add_circle_outline, color: primary),
                   onPressed: add,
                 ),
               ],

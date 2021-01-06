@@ -16,10 +16,14 @@ class _OffersPageState extends State<OffersPage> {
   AppStateModel model;
   List<Product> seeAlso = [];
   int _selectedIndex = 0;
+
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init the app state model.
     model = Provider.of<AppStateModel>(context, listen: false);
+    // Get offers from the api if not exist.
     if (model.offers == null || model.offers.isEmpty) {
       model.loadOffers();
     }
@@ -28,22 +32,21 @@ class _OffersPageState extends State<OffersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[400], 
+      backgroundColor: Colors.grey[400],
       appBar: AppBar(
         backgroundColor: primary,
         elevation: 0,
         title: Text(
           allTranslations.translate('offers'),
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         centerTitle: true,
-        leading: SizedBox(),
+        // leading: SizedBox(),
       ),
       body: RefreshIndicator(
         onRefresh: () async => model.loadOffers(),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // SizedBox(height: 50),
@@ -61,7 +64,7 @@ class _OffersPageState extends State<OffersPage> {
                       height: 300,
                       child: Center(
                         child: offers == null
-                            ? CircularProgressIndicator()
+                            ? const CircularProgressIndicator()
                             : Text(allTranslations.translate('offers_soon')),
                       ),
                     );
@@ -97,10 +100,12 @@ class _OffersPageState extends State<OffersPage> {
                                 .map((e) => offers.indexOf(e))
                                 .map((i) => Container(
                                       margin: const EdgeInsets.only(
-                                          top: 16, left: 4),
+                                        top: 16,
+                                        left: 4,
+                                      ),
                                       width: 8,
                                       height: 8,
-                                      child: SizedBox(),
+                                      child: const SizedBox(),
                                       decoration: BoxDecoration(
                                         color: i == _selectedIndex
                                             ? primary
@@ -121,7 +126,7 @@ class _OffersPageState extends State<OffersPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   allTranslations.translate('see_also'),
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
               Builder(
@@ -146,9 +151,7 @@ class _OffersPageState extends State<OffersPage> {
                   );
                 },
               ),
-              SizedBox(
-                height: 24,
-              )
+              const SizedBox(height: 24)
             ],
           ),
         ),

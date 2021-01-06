@@ -17,10 +17,12 @@ class _FavouritespageState extends State<Favouritespage> {
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init the app state model.
     model = Provider.of<AppStateModel>(context, listen: false);
+    // Get user favs.
     final repo = Provider.of<UserRepository>(context, listen: false);
-
     repo.loadFavs();
   }
 
@@ -30,31 +32,30 @@ class _FavouritespageState extends State<Favouritespage> {
       appBar: AppBar(
         backgroundColor: primary,
         elevation: 0,
-        title: Text(
-          allTranslations.translate('fav'),
-          //style: TextStyle(color: Colors.black),
-        ),
+        title: Text(allTranslations.translate('fav')),
         centerTitle: true,
-        leading: SizedBox(),
+        leading: const SizedBox(),
       ),
       body: Consumer<UserRepository>(
         builder: (context, userRepo, _) {
           if (userRepo.favs == null || userRepo.favs.isEmpty) {
             return Center(
               child: userRepo.favs == null
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : Text(allTranslations.translate('no_favs_yet')),
             );
           }
           return GridView.count(
             crossAxisCount: 2,
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
             cacheExtent: 50,
-            //crossAxisSpacing: double.infinity,
             childAspectRatio: 8 / 15,
             children: userRepo.favs
                 .map((productID) => Container(
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 4,
+                      ),
                       child: ProductCard(model.getProductById(productID)),
                     ))
                 .toList(),

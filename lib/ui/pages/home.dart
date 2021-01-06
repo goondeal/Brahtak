@@ -53,13 +53,18 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init tha app state model.
     model = Provider.of<AppStateModel>(context, listen: false);
     final products = model.products;
+    // Get the products from the api if not yet exist.
     if (!model.requestingProducts && (products == null || products.isEmpty)) {
       model.loadProducts();
     }
+    // Init the default selected index to be 0.
     _selectedIndex = 0;
+    // Init user repository and load the user favs asyncroneously.
     final userRepo = Provider.of<UserRepository>(context, listen: false);
     if (userRepo.user != null &&
         (!userRepo.requestFavs || userRepo.favs.isEmpty)) {
@@ -69,24 +74,23 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen size.
     final screenSize = MediaQuery.of(context).size;
-    final double productCardWidth = screenSize.width * 0.40;
+    // Set the width of the product card.
+    final productCardWidth = screenSize.width * 0.40;
 
     return Scaffold(
       key: _key,
-      backgroundColor: Colors.grey[200], //kBackgroundColor,
+      backgroundColor: Colors.grey[200],
       // Drawer Settings
       drawer: HomeDrawer(),
       drawerEdgeDragWidth: screenSize.width / 5,
       drawerEnableOpenDragGesture: true,
-      // AppBar stuff
+      // AppBar stuff.
       appBar: AppBar(
         title: Text(
           allTranslations.translate('go_shopping'),
-          style: TextStyle(
-            color: kTextColor,
-            fontSize: 22.0,
-          ),
+          style: const TextStyle(color: kTextColor, fontSize: 22.0),
         ),
         // _searchIconClicked
         //     // Search Text Field
@@ -139,34 +143,26 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            //_searchIconClicked ? Icons.cancel : Icons.search,
-            color: kTextColor,
-          ),
+          icon: const Icon(Icons.menu, color: kTextColor),
           onPressed: () {
             _key.currentState.openDrawer();
-            // setState(() {
-            //   _searchIconClicked = !_searchIconClicked;
-            // });
           },
         ),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              
               Consumer<AppStateModel>(
                 builder: (context, model, _) {
                   if (model.totalCartQuantity > 0) {
                     return Container(
-                      width: 24,//36,
+                      width: 24,
                       height: 24,
                       //padding: const EdgeInsets.all(8),
                       child: Center(
                           child: Text(
                         '${model.totalCartQuantity}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -178,14 +174,11 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   }
-                  return SizedBox();
+                  return const SizedBox();
                 },
               ),
               IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.black,
-                ),
+                icon: const Icon(Icons.shopping_cart, color: Colors.black),
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
@@ -209,7 +202,7 @@ class _HomeState extends State<Home> {
                 height: screenSize.height,
                 child: Center(
                   child: model.products == null
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : Text(allTranslations.translate('no_products_now')),
                 ),
               ),
@@ -239,14 +232,14 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          right: 24.0, left: 24.0, top: 8.0),
+                        right: 24.0,
+                        left: 24.0,
+                        top: 8.0,
+                      ),
                       child: Text(
-                        allTranslations.translate('recommended_for_you')
-                        ,
-                        style: TextStyle(
-                          color: kTextColor,
-                          fontSize: 20.0,
-                        ),
+                        allTranslations.translate('recommended_for_you'),
+                        style:
+                            const TextStyle(color: kTextColor, fontSize: 20.0),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -259,15 +252,18 @@ class _HomeState extends State<Home> {
                           ? Center(child: CircularProgressIndicator())
                           : model.featuredProducts.isEmpty
                               ? Center(
-                                  child: Text(allTranslations.translate('products_soon')))
+                                  child: Text(
+                                    allTranslations.translate('products_soon'),
+                                  ),
+                                )
                               : ListView.separated(
                                   itemCount: model.featuredProducts.length,
                                   separatorBuilder: (context, i) =>
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                   itemBuilder: (context, i) =>
                                       ProductCard(model.featuredProducts[i]),
                                   scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8.0),
                                 ),
                     ),
                   ],
@@ -279,15 +275,11 @@ class _HomeState extends State<Home> {
                   width: double.infinity,
                   child: Text(
                     allTranslations.translate('categories'),
-                    style: TextStyle(
-                      color: kTextColor,
-                      fontSize: 22,
-                    ),
+                    style: const TextStyle(color: kTextColor, fontSize: 22),
                     textAlign: TextAlign.start,
                   ),
                 ),
                 Column(
-                  //mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: model.availableCategories
                           ?.map((c) =>
@@ -296,8 +288,8 @@ class _HomeState extends State<Home> {
                       [
                         Container(
                           height: 300,
-                          child: Center(
-                            child: CircularProgressIndicator(),
+                          child: const Center(
+                            child: const CircularProgressIndicator(),
                           ),
                         ),
                       ],
@@ -311,17 +303,13 @@ class _HomeState extends State<Home> {
         textDirection: TextDirection.ltr,
         child: BottomNavigationBar(
           showUnselectedLabels: true,
-
           selectedItemColor: primary,
           unselectedItemColor: kTextColor2,
           items: [
             // Home
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                //color: primary,
-              ),
-              title: Text(allTranslations.translate('home')),
+              icon: const Icon(Icons.home),
+              label: allTranslations.translate('home'),
             ),
 
             // Offers
@@ -336,15 +324,12 @@ class _HomeState extends State<Home> {
               //   Icons.wb_sunny,
               //   // color: primary,
               // ),
-              title: Text(allTranslations.translate('offers')),
+              label: allTranslations.translate('offers'),
             ),
 
             // Favs
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                // color: primary,
-              ),
+              icon: const Icon(Icons.favorite),
               // Stack(
               //   children: [
               //     Icon(
@@ -377,25 +362,19 @@ class _HomeState extends State<Home> {
               //   ],
               // ),
               //title: Text('Cart'),
-              title: Text(allTranslations.translate('fav')),
+              label: allTranslations.translate('fav'),
             ),
 
             // Addresses
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.library_books,
-                // color: primary,
-              ),
-              title: Text(allTranslations.translate('addresses')),
+              icon: const Icon(Icons.library_books),
+              label: allTranslations.translate('addresses'),
             ),
 
             // Profile
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                // color: primary,
-              ),
-              title: Text(allTranslations.translate('profile')),
+              icon: const Icon(Icons.person),
+              label: allTranslations.translate('profile'),
             ),
           ],
 
@@ -404,7 +383,6 @@ class _HomeState extends State<Home> {
           currentIndex: _selectedIndex,
           onTap: (index) {
             if (index != _selectedIndex) {
-              
               navigateTo(pages[index], force: index == 1);
             }
           },
@@ -413,23 +391,23 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void navigateTo(Widget page, {force= false}) {
+  void navigateTo(Widget page, {force = false}) {
     if (force) {
-       Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => page,
-      ),
-    );
-    }else{
       Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Provider.of<UserRepository>(context).user == null
-            ? LoginToContinue()
-            : page,
-      ),
-    );
+        MaterialPageRoute(
+          builder: (context) => page,
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              Provider.of<UserRepository>(context).user == null
+                  ? LoginToContinue()
+                  : page,
+        ),
+      );
     }
-    
   }
 
   // List<Widget> _buildItems(List<Product> products, double width) {
@@ -465,9 +443,11 @@ class _HomeState extends State<Home> {
           splashColor: kBackgroundColor2,
           autofocus: true,
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ProductsPage(category: category),
-            ));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ProductsPage(category: category),
+              ),
+            );
           },
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -477,24 +457,8 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  //height: screenSize.height * 0.2,
-                  decoration: BoxDecoration(
-                      // image: DecorationImage(
-                      //   image: ,
-
-                      //   // CachedNetworkImageProvider(
-                      //   //   category.image,
-                      //   //   errorListener: (){},
-
-                      //   //   ),
-                      //   fit: BoxFit.cover,
-                      //   repeat: ImageRepeat.noRepeat,
-                      //   alignment: Alignment.center,
-                      // ),
-                      ),
                   child: CachedNetworkImage(
-                    imageUrl: category.image.toString(), // is String?
-                    //category.image.toString(),
+                    imageUrl: category.image.toString(),
                     fit: BoxFit.cover,
                     alignment: Alignment.center,
                     repeat: ImageRepeat.noRepeat,
@@ -509,11 +473,14 @@ class _HomeState extends State<Home> {
                     //   ),
                     // ),
                     placeholder: (context, url) => Center(
-                        child: Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator())),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: const CircularProgressIndicator(),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
@@ -521,10 +488,7 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   category.name,
-                  style: TextStyle(
-                    color: kTextColor2,
-                    fontSize: 18,
-                  ),
+                  style: const TextStyle(color: kTextColor2, fontSize: 18),
                 ),
               ),
             ],

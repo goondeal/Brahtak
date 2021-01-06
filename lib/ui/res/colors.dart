@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
- Color primary =   Color(0xFFE52437); // Colors.yellow[100];
+const Color primary =   Color(0xFFE52437); // Colors.yellow[100];
 const Color swatch = Color(0xFFFDEEF0);
- Color primarySwatch = Color(0xFFE94F5E);
+const Color primarySwatch = Color(0xFFE94F5E);
 
 const Color secondary = Colors.white;
 

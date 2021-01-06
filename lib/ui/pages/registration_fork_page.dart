@@ -9,8 +9,6 @@ import 'package:Bra7tk/ui/res/styles.dart';
 const double radius = 32.0;
 
 class RegisterOrSignIn extends StatelessWidget {
-  const RegisterOrSignIn({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -22,12 +20,11 @@ class RegisterOrSignIn extends StatelessWidget {
             height: double.infinity,
             color: primary,
             child: Align(
-              alignment: Alignment(0, -0.30),
+              alignment: const Alignment(0, -0.30),
               child: Image.asset(
                 'assets/images/logo_2.png',
                 semanticLabel: 'logo',
-                //color: Colors.yellow[100],
-                scale: 5,
+                scale: 5.0,
               ),
             ),
           ),
@@ -36,7 +33,7 @@ class RegisterOrSignIn extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: 0.35 * screenSize.height,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(radius),
                   topRight: Radius.circular(radius),
@@ -66,10 +63,11 @@ class RegisterOrSignIn extends StatelessWidget {
                           style: textStyle,
                         ),
                         onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return LoginPage();
-                          }));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              return LoginPage();
+                            }),
+                          );
                         },
                       ),
                       RaisedButton(

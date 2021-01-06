@@ -21,12 +21,17 @@ class _AddressesPageState extends State<AddressesPage> {
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init user repository.
     userRepo = Provider.of<UserRepository>(context, listen: false);
+    // Init tha app state model.
     model = Provider.of<AppStateModel>(context, listen: false);
+    // Load the available areas in-service if not exist.
     if (userRepo.areas == null || userRepo.areas.isEmpty) {
       userRepo.loadAreas();
     }
+    // Load the user saved addresses.
     if (userRepo.addresses == null || userRepo.addresses.isEmpty) {
       userRepo.loadUserAddresses();
     }
@@ -42,18 +47,13 @@ class _AddressesPageState extends State<AddressesPage> {
         centerTitle: true,
         title: Text(
           allTranslations.translate('addresses'),
-          style: TextStyle(
-            color: kTextColor,
-          ),
+          style: const TextStyle(color: kTextColor),
         ),
         actions: [
           IconButton(
-            icon: Directionality(
+            icon: const Directionality(
               textDirection: TextDirection.ltr,
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
+              child: Icon(Icons.arrow_back, color: Colors.black),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -68,7 +68,7 @@ class _AddressesPageState extends State<AddressesPage> {
               if (repo.addresses == null || repo.addresses.isEmpty) {
                 return Center(
                   child: repo.addresses == null
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : Text(allTranslations.translate('no_addresses_yet')),
                 );
               }
@@ -80,10 +80,9 @@ class _AddressesPageState extends State<AddressesPage> {
                 },
                 separatorBuilder: (context, i) {
                   return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Divider(
-                        color: primary,
-                      ));
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    child: const Divider(color: primary),
+                  );
                 },
                 itemCount: repo.addresses.length,
               );
@@ -91,10 +90,7 @@ class _AddressesPageState extends State<AddressesPage> {
           ),
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 8.0,
-            ),
+            margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
             child: RaisedButton(
               color: primary,
               elevation: 4.0,
@@ -105,10 +101,7 @@ class _AddressesPageState extends State<AddressesPage> {
               ),
               child: Text(
                 allTranslations.translate('add_new_address'),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 20.0),
               ),
               onPressed: () {
                 Navigator.of(context)
@@ -132,7 +125,8 @@ class _AddressesPageState extends State<AddressesPage> {
                 0.0;
         Navigator.of(context).pop();
         Fluttertoast.showToast(
-          msg: '${address.addressName} ${allTranslations.translate('set_as_default')}',
+          msg:
+              '${address.addressName} ${allTranslations.translate('set_as_default')}',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -146,50 +140,40 @@ class _AddressesPageState extends State<AddressesPage> {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          border: Border.all(
-            style: BorderStyle.none,
-          ),
+          border: Border.all(style: BorderStyle.none),
           shape: BoxShape.circle,
           color: Colors.white,
         ),
-        child: Icon(
-          Icons.notifications,
-          color: kTextColor2,
-        ),
+        child: const Icon(Icons.notifications, color: kTextColor2),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(address.addressName,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              )),
-          Text(address.phoneNumber,
-              style: TextStyle(
-                color: kTextColor2,
-              )),
           Text(
-              userRepo.getAreaNameByID(int.parse(address.areaID)) ??
-                  '${allTranslations.translate('region')} ${address.areaID}',
-              style: TextStyle(
-                color: kTextColor2,
-              )),
-          Text(address.st,
-              style: TextStyle(
-                color: kTextColor2,
-              )),
+            address.addressName,
+            style: const TextStyle(color: Colors.black, fontSize: 20),
+          ),
+          Text(
+            address.phoneNumber,
+            style: const TextStyle(color: kTextColor2),
+          ),
+          Text(
+            userRepo.getAreaNameByID(int.parse(address.areaID)) ??
+                '${allTranslations.translate('region')} ${address.areaID}',
+            style: const TextStyle(color: kTextColor2),
+          ),
+          Text(
+            address.st,
+            style: const TextStyle(color: kTextColor2),
+          ),
           if (address.flat != null)
-            Text(address.flat,
-                style: TextStyle(
-                  color: kTextColor2,
-                )),
-          Text(address.comment ?? ' ',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: kTextColor2,
-              )),
+            Text(address.flat, style: const TextStyle(color: kTextColor2)),
+          Text(
+            address.comment ?? ' ',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: kTextColor2),
+          ),
         ],
       ),
     );

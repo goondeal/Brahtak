@@ -19,14 +19,17 @@ class _AddAdressPageState extends State<AddAdressPage> {
   TextEditingController _streetController;
 
   UserRepository userRepo;
-  //int _selected;
   String _selectedAreaName;
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init user repository.
     userRepo = Provider.of<UserRepository>(context, listen: false);
-    _addressNameController = TextEditingController(text: allTranslations.translate('address_1'));
+    // Init controllers.
+    _addressNameController =
+        TextEditingController(text: allTranslations.translate('address_1'));
     _commentController = TextEditingController();
     _streetController = TextEditingController();
     _flatController = TextEditingController();
@@ -36,11 +39,13 @@ class _AddAdressPageState extends State<AddAdressPage> {
 
   @override
   void dispose() {
+    // Dispose controllers.
     _addressNameController.dispose();
     _commentController.dispose();
     _streetController.dispose();
     _phoneNumberController.dispose();
     _flatController.dispose();
+    // Dispose super.
     super.dispose();
   }
 
@@ -52,10 +57,10 @@ class _AddAdressPageState extends State<AddAdressPage> {
         elevation: 0,
         title: Text(
           allTranslations.translate('address_details'),
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        leading: SizedBox(),
+        leading: const SizedBox(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -70,7 +75,6 @@ class _AddAdressPageState extends State<AddAdressPage> {
               children: [
                 Container(
                   width: 150,
-                  //color: Colors.grey[300],
                   margin:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                   padding:
@@ -83,13 +87,12 @@ class _AddAdressPageState extends State<AddAdressPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  _selectedAreaName ?? allTranslations.translate('region'),
-                                  style: TextStyle(color: primary, fontSize: 18.0),
+                                  _selectedAreaName ??
+                                      allTranslations.translate('region'),
+                                  style:
+                                      TextStyle(color: primary, fontSize: 18.0),
                                 ),
-                                Icon(
-                                  Icons.expand_more,
-                                  color: primary,
-                                ),
+                                const Icon(Icons.expand_more, color: primary),
                               ],
                             ),
                             itemBuilder: (context) {
@@ -122,12 +125,12 @@ class _AddAdressPageState extends State<AddAdressPage> {
               controller: _flatController,
             ),
             _buildSection(
-              title: allTranslations.translate('phone'),// PHONE_NUMBER,
+              title: allTranslations.translate('phone'), // PHONE_NUMBER,
               controller: _phoneNumberController,
               textInputType: TextInputType.phone,
             ),
 
-            // comment TextField
+            // The comment text area.
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -135,7 +138,7 @@ class _AddAdressPageState extends State<AddAdressPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     allTranslations.translate('add_comment'),
-                    style: TextStyle(color: primary, fontSize: 22.0),
+                    style: const TextStyle(color: primary, fontSize: 22.0),
                   ),
                 ),
                 Container(
@@ -144,17 +147,13 @@ class _AddAdressPageState extends State<AddAdressPage> {
                   height: 200,
                   child: TextField(
                     maxLines: 8,
-
-                    style: TextStyle(
-                      color: kTextColor,
-                      fontSize: 22,
-                    ),
+                    style: TextStyle(color: kTextColor, fontSize: 22),
                     controller: _commentController,
                     textAlign: TextAlign.start,
                     decoration: InputDecoration(
                       hintText: allTranslations.translate('add_mark'),
-                      contentPadding: EdgeInsets.all(8),
-                      border: OutlineInputBorder(
+                      contentPadding: const EdgeInsets.all(8),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 1,
                           style: BorderStyle.solid,
@@ -180,10 +179,7 @@ class _AddAdressPageState extends State<AddAdressPage> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Text(
                     allTranslations.translate('save'),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   onPressed: () {
                     final address = Address(
@@ -192,7 +188,6 @@ class _AddAdressPageState extends State<AddAdressPage> {
                           .getAreaByName(_selectedAreaName)
                           .id
                           .toString(),
-                      //areaName: userRepo.getAreaNameByID(_selected),
                       comment: _commentController.text,
                       phoneNumber: _phoneNumberController.text,
                       flat: _flatController.text,
@@ -216,11 +211,12 @@ class _AddAdressPageState extends State<AddAdressPage> {
     );
   }
 
-  Widget _buildSection(
-      {String title,
-      TextEditingController controller,
-      String hintText,
-      textInputType,}) {
+  Widget _buildSection({
+    String title,
+    TextEditingController controller,
+    String hintText,
+    textInputType,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -228,7 +224,7 @@ class _AddAdressPageState extends State<AddAdressPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: Text(
             title,
-            style: TextStyle(color: primary, fontSize: 18.0),
+            style: const TextStyle(color: primary, fontSize: 18.0),
           ),
         ),
         Container(
@@ -237,19 +233,16 @@ class _AddAdressPageState extends State<AddAdressPage> {
           height: 50.0,
           child: TextField(
             keyboardType: textInputType ?? TextInputType.text,
-            style: TextStyle(
-              color: kTextColor,
-              fontSize: 22,
-            ),
+            style: const TextStyle(color: kTextColor, fontSize: 22),
 
             controller: controller,
             textAlignVertical: TextAlignVertical(y: 0),
             decoration: InputDecoration(
               hintText: hintText ?? '',
-              contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   width: 1,
                   style: BorderStyle.solid,
                   color: kTextColor,

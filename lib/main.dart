@@ -26,8 +26,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    // Init super.
     super.initState();
+    // Init the translation provider.
     allTranslations.init();
+    // Init the app state model and load products asyncroneously.
     model = AppStateModel()..loadProducts();
   }
 
@@ -66,10 +69,12 @@ class _MyAppState extends State<MyApp> {
                   headline5: GoogleFonts.cairo(),
                   headline6: GoogleFonts.cairo(),
                 ),
-            pageTransitionsTheme: PageTransitionsTheme(builders: {
-              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            }),
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            ),
           ),
           home: Consumer<UserRepository>(
             builder: (context, userRepository, _) {

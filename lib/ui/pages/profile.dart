@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:Bra7tk/models/user.dart';
 import 'package:Bra7tk/services/user_repository.dart';
 import 'package:Bra7tk/ui/res/colors.dart';
-import 'package:Bra7tk/ui/res/strings.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
